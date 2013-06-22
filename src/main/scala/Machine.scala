@@ -5,7 +5,7 @@ object Machine {
   /* An environment is a table of identifiers to expressions. As there is no
      expression type to represent irreducible values, an identifier can bind to
      a reducible expression or a fully reduced primitive. */
-  type Environment = Map[String, Expression]
+  type Environment = Map[Symbol, Expression]
 
   def reduceExpression(expr: Expression, env: Environment): Expression =
     expr match {
@@ -34,6 +34,11 @@ object Machine {
       case If(Reducible(expr), c, a) => reduceStatement(If(reduceExpression(expr, env), c, a), env)
       case If(Bool(true), c, _) => c -> env
       case If(Bool(false), _, a) => a -> env
+
+      case Sequence(DoNothing, s) => (s, env)
+      case Sequence(f, s) =>
+        val (rf, renv) = reduceStatement(f, env)
+        (Sequence(rf, s), renv)
 
       case _ => (stmt, env)
     }

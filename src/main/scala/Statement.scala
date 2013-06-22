@@ -5,5 +5,9 @@ package understandingcomputation.simple
    primative, but for now we'll keep with the book and keep them separated. */
 sealed trait Statement
 case object DoNothing extends Statement
-case class Assign(name: String, expr: Expression) extends Statement
-case class If(condition: Expression, consequence: Statement, alternative: Statement) extends Statement
+
+final case class Assign(name: Symbol, expr: Expression) extends Statement
+
+final case class If(condition: Expression, consequence: Statement, alternative: Statement) extends Statement
+
+final case class Sequence(first: Statement, second: Statement) extends Statement
