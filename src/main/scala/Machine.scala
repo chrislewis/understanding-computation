@@ -15,10 +15,10 @@ object Machine {
   def apply(sem: Semantics) = new Machine(sem)
   
   def runExpression(sem: Semantics, expr: Expression, env: Environment) =
-    println(sem.evaluateExpression(expr, env))
+    println(sem.evaluateExpression(expr, env).head)
 
   def runStatement(sem: Semantics, stmt: Statement, env: Environment) = {
-    val (rs, renv) = sem.evaluateStatement(stmt, env)
+    val (rs, renv) = sem.evaluateStatement(stmt, env).head
     println(rs + " ---- " + renv)
   }
 
